@@ -1,0 +1,21 @@
+{
+  "main": "index.js",
+  "engines": {
+    "node": "18.*"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "watch": "npm-watch start"
+  },
+  "watch": {
+    "start": "**/*.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "npm-watch": "^0.11.0"
+  }
+}
