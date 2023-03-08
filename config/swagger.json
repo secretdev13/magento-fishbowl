@@ -1,0 +1,27 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"title": "MagFish RESTful API docs",
+		"version": "v1"
+	},
+	"basePath": "/api/v1",
+	"host": "localhost:8081",
+	"paths": {
+		"/orders/transfer": {
+			"get": {
+				"summery": "Transfer Magento 2 orders to Fishbowl",
+				"tags": [
+					"Orders"
+				],
+				"responses": {
+					"200": {
+						"description": "Transfer Magento 2 orders to Fishbowl"
+					}
+				}
+			}
+		}
+	},
+	"consumes": [
+		"application/json"
+	]
+}
