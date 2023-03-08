@@ -4,8 +4,6 @@ const Magento2Api = require('magento2-api-wrapper')
 const ordersController = {
 	transfer: async (req, res) => {
 		try {
-			console.log(process.env.Magento_Store)
-
 			// Magento instance
 			const magentoAdmin = new Magento2Api({ api: {
 		    url: process.env.Magento_Store,
@@ -28,12 +26,12 @@ const ordersController = {
 		  })
 		  .catch(error => {
 		    console.log(error)
-		    return res.json({ success: false, msg: error })
+		    return res.json({ success: false, error: error })
 		  })
 
 		} catch (error) {
 	    console.log(error)
-			return res.json({ success: false, msg: error })
+			return res.json({ success: false, error: error })
 		}
 	}
 }
