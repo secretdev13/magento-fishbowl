@@ -27,7 +27,7 @@ app.use(cors())
  * Swagger setting
  */
 const swaggerDocument = require('./config/swagger.json')
-var options = {
+const options = {
 	swaggerOptions: {
 		validatorUrl: null
 	}
