@@ -1,6 +1,7 @@
 const validation = require('validator')
 const msg = require('../const/message')
-var Validator = {
+
+const Validator = {
 	isEmpty: (val) => {
 		if (val === undefined
 			|| val === null
