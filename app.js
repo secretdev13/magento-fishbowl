@@ -12,6 +12,29 @@ require('dotenv').config()
 // Express app
 const app = express()
 
+app.use(express.json())
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(cookieParser())
+
+/**
+ * CORS setting
+ */
+app.use(cors())
+// ------------------------------------------------
+
+/**
+ * Swagger setting
+ */
+const swaggerDocument = require('./config/swagger.json')
+var options = {
+	swaggerOptions: {
+		validatorUrl: null
+	}
+}
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options))
+// ------------------------------------------------
+
 /**
  * For Logger
  */
@@ -32,24 +55,6 @@ function logError(err, req, res, next) {
 
 app.use(logRequest)
 app.use(logError)
-// ------------------------------------------------
-
-app.use(express.json())
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(cors())
-app.use(cookieParser())
-
-/**
- * Swagger setting
- */
-const swaggerDocument = require('./config/swagger.json')
-var options = {
-	swaggerOptions: {
-		validatorUrl: null
-	}
-}
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options))
 // ------------------------------------------------
 
 /**
