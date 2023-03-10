@@ -12,7 +12,7 @@ const ordersController = {
 				return res.json({ success: false, error: msg.error.invalid_updated_at }) 
 			}
 			Utils.updatedAt = dateString
-			
+
 			return res.json({ success: true, msg: msg.success.set_updated_at })
 		} catch (error) {
 			return res.json({ success: false, error: error })
@@ -27,7 +27,7 @@ const ordersController = {
         filters: [
           {
             field: "created_at",
-            value: null,
+            value: Utils.updatedAt,
             conditionType: "gt"
           }
         ],
@@ -46,7 +46,6 @@ const ordersController = {
 				const ordersData = await MagApi.call('orders?' + query, 'GET')
 				promises.push( processOrders(ordersData.items) )
 
-				console.log(query)
 				if (ordersData.total_count <= searchCriteria.currentPage * searchCriteria.pageSize) {
 					break
 				}

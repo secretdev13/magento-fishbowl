@@ -7,7 +7,7 @@ const Validator = {
 			|| val.length === 0
 			|| (typeof val === 'object' && Object.keys(val).length === 0))
 			return true
-		else return false
+		return false
 	},
 
 	isValidDateString: (dateString) => {
