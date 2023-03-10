@@ -22,6 +22,11 @@ const ordersController = {
 
 	transfer: async (req, res) => {
 		try {
+			// Get FishBowl access token
+			const fbData = await FishApi.login()
+			process.env.FB_Authorization = 'Bearer ' + fbData.token
+			console.log(process.env.FB_Authorization)
+
 			const searchCriteria = {
         currentPage: 0,
         pageSize: 10,
