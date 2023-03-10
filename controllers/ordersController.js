@@ -25,7 +25,6 @@ const ordersController = {
 			// Get FishBowl access token
 			const fbData = await FishApi.login()
 			process.env.FB_Authorization = 'Bearer ' + fbData.token
-			console.log(process.env.FB_Authorization)
 
 			const searchCriteria = {
         currentPage: 0,
@@ -82,7 +81,7 @@ const processOrders = async (orders) => {
 				value = payment_additional_info[i]
 				if (value.key == 'po_number') {
 					console.log(order.increment_id)
-					promises.push( FishApi.call('sales_order', 'POST', order) )
+					// promises.push( FishApi.call('data-query', 'GET', order) )
 					break
 				}
 			}

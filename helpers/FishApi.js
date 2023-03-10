@@ -8,6 +8,9 @@ const FishApi = {
       axios({
         url: baseUrl + '/api/login',
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
         data: {
           appName: process.env.FB_appName,
           appId: process.env.FB_appId,
@@ -24,15 +27,18 @@ const FishApi = {
     })
   },
 
-  call: async (url, method, params) => {
+  dataQuery: async (query) => {
     return new Promise((resolve, reject) => {
       axios({
-        url: baseUrl + '/api/' + url,
-        method: method,
+        url: baseUrl + '/api/data-query',
+        method: 'GET',
         headers: {
-          Authorization: authorization
+          'Content-Type': 'application/sql'
         },
-        data: params
+        headers: {
+          Authorization: process.env.FB_Authorization
+        },
+        data: query
       })
       .then(response => {
         resolve(response.data)
