@@ -12,6 +12,7 @@ const ordersController = {
 				return res.json({ success: false, error: msg.error.invalid_updated_at }) 
 			}
 			Utils.updatedAt = dateString
+			process.env.updatedAt = dateString
 
 			return res.json({ success: true, msg: msg.success.set_updated_at })
 		} catch (error) {
