@@ -1,4 +1,6 @@
 .env
 package-lock.json
 
+updated_at.txt
+
 /node_modules
