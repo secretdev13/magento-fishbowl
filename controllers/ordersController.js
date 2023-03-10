@@ -1,8 +1,24 @@
 const msg = require('../const/message')
 const MagApi = require('../helpers/MagApi')
 const FishApi = require('../helpers/FishApi')
+const Validator = require('../helpers/validation')
+const Utils = require('../helpers/Utils')
 
 const ordersController = {
+	updatedAt: async (req, res) => {
+		try {
+			dateString = req.params.dateString
+			if (!Validator.isValidDateString(dateString)) {
+				return res.json({ success: false, error: msg.error.invalid_updated_at }) 
+			}
+			Utils.updatedAt = dateString
+			
+			return res.json({ success: true, msg: msg.success.set_updated_at })
+		} catch (error) {
+			return res.json({ success: false, error: error })
+		}
+	},
+
 	transfer: async (req, res) => {
 		try {
 			const searchCriteria = {

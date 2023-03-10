@@ -1,5 +1,4 @@
 const validation = require('validator')
-const msg = require('../const/message')
 
 const Validator = {
 	isEmpty: (val) => {
@@ -9,6 +8,11 @@ const Validator = {
 			|| (typeof val === 'object' && Object.keys(val).length === 0))
 			return true
 		else return false
+	},
+
+	isValidDateString: (dateString) => {
+		const regex = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/
+		return regex.test(dateString)
 	}
 }
 
