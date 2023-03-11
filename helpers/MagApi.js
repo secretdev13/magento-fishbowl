@@ -1,4 +1,5 @@
 const axios = require('axios')
+const Validator = require('../helpers/validation')
 
 const baseUrl = process.env.Magento_Store
 const authorization = process.env.Magento_Authorization
@@ -16,7 +17,7 @@ const MagApi = {
       filters = params.filters
       for (i in filters) {
         const filter = filters[i]
-        if (filter.value) {
+        if (!Validator.isEmpty(filter.value)) {
           query += `&searchCriteria[filterGroups][0][filters][${i}][field]=${filter.field}`
           query += `&searchCriteria[filterGroups][0][filters][${i}][value]=${filter.value}`
           query += `&searchCriteria[filterGroups][0][filters][${i}][conditionType]=${filter.conditionType}`

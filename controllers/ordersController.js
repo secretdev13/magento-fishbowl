@@ -1,17 +1,38 @@
 const msg = require('../const/message')
 const MagApi = require('../helpers/MagApi')
 const FishApi = require('../helpers/FishApi')
+const Validator = require('../helpers/validation')
+const Utils = require('../helpers/Utils')
 
 const ordersController = {
+	updatedAt: async (req, res) => {
+		try {
+			dateString = req.params.dateString
+			if (!Validator.isValidDateString(dateString)) {
+				return res.json({ success: false, error: msg.error.invalid_updated_at }) 
+			}
+			Utils.updatedAt = dateString
+			process.env.updatedAt = dateString
+
+			return res.json({ success: true, msg: msg.success.set_updated_at })
+		} catch (error) {
+			return res.json({ success: false, error: error })
+		}
+	},
+
 	transfer: async (req, res) => {
 		try {
+			// Get FishBowl access token
+			const fbData = await FishApi.login()
+			process.env.FB_Authorization = 'Bearer ' + fbData.token
+
 			const searchCriteria = {
         currentPage: 0,
         pageSize: 10,
         filters: [
           {
             field: "created_at",
-            value: null,
+            value: Utils.updatedAt,
             conditionType: "gt"
           }
         ],
@@ -30,7 +51,6 @@ const ordersController = {
 				const ordersData = await MagApi.call('orders?' + query, 'GET')
 				promises.push( processOrders(ordersData.items) )
 
-				console.log(query)
 				if (ordersData.total_count <= searchCriteria.currentPage * searchCriteria.pageSize) {
 					break
 				}
@@ -61,7 +81,7 @@ const processOrders = async (orders) => {
 				value = payment_additional_info[i]
 				if (value.key == 'po_number') {
 					console.log(order.increment_id)
-					promises.push( FishApi.call('sales_order', 'POST', order) )
+					// promises.push( FishApi.call('data-query', 'GET', order) )
 					break
 				}
 			}
