@@ -33,9 +33,7 @@ const FishApi = {
         url: baseUrl + '/api/data-query',
         method: 'GET',
         headers: {
-          'Content-Type': 'application/sql'
-        },
-        headers: {
+          'Content-Type': 'application/sql',
           Authorization: process.env.FB_Authorization
         },
         data: query

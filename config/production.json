@@ -1,4 +1,6 @@
 {
 	"port": "8081",
-	"baseURL": "/api/v1"
+	"baseURL": "/api/v1",
+	// FishBowl DB manager
+	"fbDbManager": "http://localhost:28193"
 }

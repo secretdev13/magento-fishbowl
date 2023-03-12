@@ -1,6 +1,6 @@
 const msg = require('../const/message')
 const MagApi = require('../helpers/MagApi')
-const FishApi = require('../helpers/FishApi')
+const FbDbManager = require('../helpers/FbDbManager')
 const Validator = require('../helpers/validation')
 const Utils = require('../helpers/Utils')
 
@@ -22,28 +22,25 @@ const ordersController = {
 
 	transfer: async (req, res) => {
 		try {
-			// Get FishBowl access token
-			const fbData = await FishApi.login()
-			process.env.FB_Authorization = 'Bearer ' + fbData.token
-
 			const searchCriteria = {
         currentPage: 0,
         pageSize: 10,
         filters: [
           {
-            field: "created_at",
+            field: "updated_at",
             value: Utils.updatedAt,
             conditionType: "gt"
           }
         ],
         sortOrders: [
           {
-            field: "created_at",
-            direction: "desc"
+            field: "updated_at",
+            direction: "asc"
           }
         ],
     	}
 	    promises = []
+	    var lastOrder
 
 	    while(true) {
 	    	searchCriteria.currentPage += 1
@@ -52,11 +49,13 @@ const ordersController = {
 				promises.push( processOrders(ordersData.items) )
 
 				if (ordersData.total_count <= searchCriteria.currentPage * searchCriteria.pageSize) {
+					lastOrder = ordersData.items[ordersData.items.length - 1]
 					break
 				}
 	    }
 
 	    Promise.all(promises).then(values => {
+	    	Utils.updatedAt = lastOrder['updated_at']
 	    	res.json({ success: true, data: values })
 	    }).catch(error => {
 				res.json({ success: false, error: error })
@@ -81,7 +80,7 @@ const processOrders = async (orders) => {
 				value = payment_additional_info[i]
 				if (value.key == 'po_number') {
 					console.log(order.increment_id)
-					// promises.push( FishApi.call('data-query', 'GET', order) )
+					promises.push( FbDbManager.updateSalesOrder(order.increment_id, value['po_number']) )
 					break
 				}
 			}
