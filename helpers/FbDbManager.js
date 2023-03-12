@@ -9,18 +9,17 @@ const FbDbManager = {
       axios({
         url: baseUrl + '/api/sales-order/update_po',
         method: 'POST',
-        headers: {
-          Authorization: process.env.FB_Authorization
-        },
         data: {
           num: so_number,
           po: po_number
         }
       })
       .then(response => {
+        console.log(response.data)
         resolve(response.data)
       })
       .catch(error => {
+        console.log(error)
         reject(error)
       })
     })

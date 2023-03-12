@@ -55,7 +55,7 @@ const ordersController = {
 	    }
 
 	    Promise.all(promises).then(values => {
-	    	Utils.updatedAt = lastOrder['updated_at']
+	    	// Utils.updatedAt = lastOrder['updated_at']
 	    	res.json({ success: true, data: values })
 	    }).catch(error => {
 				res.json({ success: false, error: error })
@@ -76,11 +76,11 @@ const processOrders = async (orders) => {
 				continue
 
 			const payment_additional_info = order.extension_attributes.payment_additional_info
-			for (i in payment_additional_info) {
-				value = payment_additional_info[i]
-				if (value.key == 'po_number') {
-					console.log(order.increment_id)
-					promises.push( FbDbManager.updateSalesOrder(order.increment_id, value['po_number']) )
+			for (j in payment_additional_info) {
+				info = payment_additional_info[j]
+				if (info.key == 'po_number' && !Validator.isEmpty(info.value)) {
+					console.log(info)
+					promises.push( FbDbManager.updateSalesOrder(order.increment_id, info.value) )
 					break
 				}
 			}
